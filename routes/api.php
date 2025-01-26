@@ -10,5 +10,5 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('modules')->group(function () {
     Route::post('/', [ModuleController::class, 'store']);
-    Route::get('/{id}/download', [ModuleController::class, 'download']);
+    Route::get('/{module}/download', [ModuleController::class, 'download']);
 });
