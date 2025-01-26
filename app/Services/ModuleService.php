@@ -4,29 +4,27 @@ namespace App\Services;
 
 use App\Models\Module;
 use App\Utils\ModuleGenerator;
+use Illuminate\Support\Str;
 
 class ModuleService
 {
-    public function __construct(
-        private readonly ModuleGenerator $moduleGenerator,
-    ) {
-    }
-
     public function generateModuleZipped(Module $module)
     {
-        $tempFolder = storage_path('public/temp');
+        $tempFolder = storage_path('app/temp');
         if (!file_exists($tempFolder)) {
             mkdir($tempFolder, 0755, true);
         }
 
-        $htmlFile = $tempFolder . '/index.html';
-        $cssFile = $tempFolder . '/styles.css';
-        $jsFile = $tempFolder . '/script.js';
-        $zipFile = storage_path('public/files.zip');
+        $hash = Str::random(10);
 
-        file_put_contents($htmlFile, $this->moduleGenerator->generateHtmlFile($module));
-        file_put_contents($cssFile, $this->moduleGenerator->generateCssFile($module));
-        file_put_contents($jsFile, $this->moduleGenerator->generateJsFile($module));
+        $htmlFile = $tempFolder . '/index' . $hash . '.html';
+        $cssFile = $tempFolder . '/styles' . $hash . '.css';
+        $jsFile = $tempFolder . '/script' . $hash . '.js';
+        $zipFile = storage_path("app/temp/files_$hash.zip");
+
+        file_put_contents($htmlFile, ModuleGenerator::generateHtmlFile($module));
+        file_put_contents($cssFile, ModuleGenerator::generateCssFile($module));
+        file_put_contents($jsFile, ModuleGenerator::generateJsFile($module));
 
         $zip = new \ZipArchive();
         if ($zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {

@@ -24,11 +24,7 @@ class ModuleController extends Controller
         $module = $this->moduleRepository->createModule(ModuleDTO::fromRequest($request));
 
         if (!$module) {
-            try {
-                throw new ModuleNotFoundException();
-            } catch (ModuleNotFoundException) {
-                return response()->json(status: Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
+            return response()->json(status: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return response()->json([
@@ -36,6 +32,9 @@ class ModuleController extends Controller
         ], status: Response::HTTP_CREATED);
     }
 
+    // Instead of generating the module for each request, it could be cached,
+    // files could be stored in some sort of storage (like S3 bucket) or even
+    // queued.
     public function download(Module $module)
     {
         $zipFile = $this->moduleService->generateModuleZipped($module);

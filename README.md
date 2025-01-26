@@ -28,3 +28,9 @@ curl --location 'http://localhost:2000/modules' \
 --data-urlencode 'color=red' \
 --data-urlencode 'link=https://www.google.com'
 ```
+
+### What I would do in case if it would be a real world project
+I would add caching/storing files/queues when generating zip files. 
+I'd use a better tool for documenting the API (instead of documenting it in README doc), i.e. swagger.
+Modify docker compose and/or docker files for production.
+Also, other changes dependent on the project assumptions, i.e. whether using DDD would be a good choice.
