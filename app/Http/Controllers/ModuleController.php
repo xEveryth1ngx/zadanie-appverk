@@ -14,8 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 class ModuleController extends Controller
 {
     public function __construct(
-        public ModuleRepository $moduleRepository,
-        public ModuleService $moduleService,
+        public readonly ModuleRepository $moduleRepository,
+        public readonly ModuleService $moduleService,
     ) {
     }
 
@@ -26,7 +26,7 @@ class ModuleController extends Controller
         if (!$module) {
             try {
                 throw new ModuleNotFoundException();
-            } catch (ModuleNotFoundException $e) {
+            } catch (ModuleNotFoundException) {
                 return response()->json(status: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         }

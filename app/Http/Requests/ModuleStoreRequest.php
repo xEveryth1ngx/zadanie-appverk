@@ -17,7 +17,7 @@ class ModuleStoreRequest extends FormRequest
             'width' => 'required|integer|min:0',
             'height' => 'required|integer|min:0',
             'color' => 'required|string',
-            'link' => 'required|string',
+            'link' => 'required|url:http,https',
         ];
     }
 }
